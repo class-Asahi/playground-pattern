@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "bitset": "cpp"
+    },
+    "cmake.configureOnOpen": false,
+    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools"
+}
