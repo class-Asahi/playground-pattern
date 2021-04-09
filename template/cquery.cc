@@ -294,6 +294,13 @@ struct {
     auto &operator,(char *x) { return $(x), *this; }
 } input;
 
+struct {
+    template <class token>
+    auto &operator,(token &x) { return $.print(x), *this; }
+    template <class token>
+    auto &operator,(token &&x) { return $.print(x), *this; }
+} output;
+
 using namespace std;
 
 using longs = long long;
