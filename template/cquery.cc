@@ -138,6 +138,11 @@ public:
         return *this;
     }
 
+    template <class T1, class T2>
+    cquery &operator()(std::pair<T1, T2> &x) {
+        return (*this)(x.first, x.second);
+    }
+
     cquery &operator()(char &x) {
         do x = (char) ::getchar(); while (is<_blank>(x));
         return *this;
@@ -231,10 +236,37 @@ public:
         return *this;
     }
 
-    template<class T, class comma = char>
-    cquery &putArray(T first, T last, comma split = ' ') {
+    template<class T, class Fun = void(*)(T, cquery &)>
+    cquery &nextArray(T first, T last, Fun lambda) {
+        while (first != last)
+            lambda(first, *this), ++first;
+        return *this;
+    }
+
+    template<class T>
+    cquery &putArray(T first, T last, char split = ' ') {
         while (first != last) {
             write(stdout, *first), ++first;
+            if (first != last) write(stdout, split);
+            else write(stdout, '\n');
+        }
+        return *this;
+    }
+
+    template<class T>
+    cquery &putArray(T first, T last, char *split) {
+        while (first != last) {
+            write(stdout, *first), ++first;
+            if (first != last) write(stdout, split);
+            else write(stdout, '\n');
+        }
+        return *this;
+    }
+
+    template<class T, class Fun = void(*)(T, cquery &), class comma = char>
+    cquery &putArray(T first, T last, Fun fmt, comma split = ' ') {
+        while (first != last) {
+            fmt(first, *this), ++first;
             if (first != last) write(stdout, split);
             else write(stdout, '\n');
         }
@@ -263,10 +295,30 @@ public:
         return *this;
     }
 
-    template<class T, class comma = char>
-    cquery &logArray(T first, T last, comma split = ' ') {
+    template<class T>
+    cquery &logArray(T first, T last, char split = ' ') {
         while (first != last) {
             write(stderr, *first), ++first;
+            if (first != last) write(stderr, split);
+            else write(stderr, '\n');
+        }
+        return *this;
+    }
+
+    template<class T>
+    cquery &logArray(T first, T last, char *split) {
+        while (first != last) {
+            write(stderr, *first), ++first;
+            if (first != last) write(stderr, split);
+            else write(stderr, '\n');
+        }
+        return *this;
+    }
+
+    template<class T, class Fun = void(*)(T, cquery &), class comma = char>
+    cquery &logArray(T first, T last, Fun fmt, comma split = ' ') {
+        while (first != last) {
+            fmt(first, *this), ++first;
             if (first != last) write(stderr, split);
             else write(stderr, '\n');
         }
@@ -319,7 +371,6 @@ const auto null = nullptr;
 signed main() {
     ios::sync_with_stdio(false);
     cin.tie(null), cout.tie(null);
-
 
     return 0;
 }
