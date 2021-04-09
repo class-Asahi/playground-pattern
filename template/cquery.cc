@@ -1,6 +1,6 @@
 /**
- * 
- * 
+ *
+ *
  */
 #include <bits/stdc++.h>
 
@@ -110,6 +110,11 @@ public:
         return (*this)(x), (*this)(y...);
     }
 
+    template<class... Ts>
+    cquery &operator()(char *x, Ts &&... y) {
+        return (*this)(x), (*this)(y...);
+    }
+
     cquery &operator()(char *x) {
         scanf("%s", x);
         return *this;
@@ -137,9 +142,6 @@ public:
         do x = (char) ::getchar(); while (is<_blank>(x));
         return *this;
     }
-
-    template<class T>
-    cquery &operator,(T &x) { return (*this)(x); }
 
     template<class T>
     T next() {
@@ -286,6 +288,12 @@ public:
 
 char cquery::buffer[cquery::buffer_size];
 
+struct {
+    template <class token>
+    auto &operator,(token &x) { return $(x), *this; }
+    auto &operator,(char *x) { return $(x), *this; }
+} input;
+
 using namespace std;
 
 using longs = long long;
@@ -297,6 +305,7 @@ const auto null = nullptr;
 signed main() {
     ios::sync_with_stdio(false);
     cin.tie(null), cout.tie(null);
+
 
     return 0;
 }
