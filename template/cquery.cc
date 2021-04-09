@@ -273,6 +273,12 @@ public:
         return *this;
     }
 
+    cquery &newLine() { return write(stdout, '\n'), *this; }
+
+    [[deprecated]] cquery &println() { return newLine(); }
+
+    [[deprecated]] cquery &put() { return newLine(); }
+
     template<class T>
     void trace(const char *name, T &&value) { write(stderr, name, " = ", value); }
 
@@ -283,7 +289,6 @@ public:
         write(stderr, " = ", value), fputc(',', stderr);
         trace(separate + 1, list...);
     }
-
 } $;
 
 char cquery::buffer[cquery::buffer_size];
@@ -295,6 +300,8 @@ struct {
 } input;
 
 struct {
+    using linebreak = std::ostream &(*)(std::ostream &);
+    auto &operator,(linebreak x) { return $.newLine().flush(), *this; }
     template <class token>
     auto &operator,(token &x) { return $.print(x), *this; }
     template <class token>
