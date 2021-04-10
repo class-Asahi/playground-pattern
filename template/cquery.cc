@@ -148,12 +148,16 @@ public:
         return *this;
     }
 
+private:
+
     template<class T>
     T next() {
         T ret;
         (*this)(ret);
         return ret;
     }
+
+public:
 
     int nextInt() { return read<int>(); }
 
