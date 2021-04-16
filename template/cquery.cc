@@ -1,7 +1,3 @@
-/**
- *
- *
- */
 #include <bits/stdc++.h>
 
 #define minimize(a, b...) ((a) = min({(a), b}))
@@ -111,7 +107,7 @@ public:
     }
 
     template<class... Ts>
-    cquery &operator()(char *x, Ts &&... y) {
+    cquery &operator()(char *x, Ts &... y) {
         return (*this)(x), (*this)(y...);
     }
 
@@ -138,7 +134,7 @@ public:
         return *this;
     }
 
-    template <class T1, class T2>
+    template<class T1, class T2>
     cquery &operator()(std::pair<T1, T2> &x) {
         return (*this)(x.first, x.second);
     }
@@ -240,7 +236,7 @@ public:
         return *this;
     }
 
-    template<class T, class Fun = void(*)(T, cquery &)>
+    template<class T, class Fun = void (*)(T, cquery &)>
     cquery &nextArray(T first, T last, Fun lambda) {
         while (first != last)
             lambda(first, *this), ++first;
@@ -267,7 +263,7 @@ public:
         return *this;
     }
 
-    template<class T, class Fun = void(*)(T, cquery &), class comma = char>
+    template<class T, class Fun = void (*)(T, cquery &), class comma = char>
     cquery &putArray(T first, T last, Fun fmt, comma split = ' ') {
         while (first != last) {
             fmt(first, *this), ++first;
@@ -279,7 +275,7 @@ public:
 
     template<class T>
     cquery &log(const T &x) {
-        return write(stdout, x, '\n'), *this;
+        return write(stderr, x, '\n'), *this;
     }
 
     template<class T>
@@ -289,13 +285,13 @@ public:
 
     template<class T, class ...Ts>
     cquery &log(const T &x, Ts ...xs) {
-        write(stderr, x, ' '), put(xs...);
+        write(stderr, x, ' '), log(xs...);
         return *this;
     }
 
     template<class T, class ...Ts>
     cquery &log(const T &&x, Ts ...xs) {
-        write(stderr, x, ' '), put(xs...);
+        write(stderr, x, ' '), log(xs...);
         return *this;
     }
 
@@ -319,7 +315,7 @@ public:
         return *this;
     }
 
-    template<class T, class Fun = void(*)(T, cquery &), class comma = char>
+    template<class T, class Fun = void (*)(T, cquery &), class comma = char>
     cquery &logArray(T first, T last, Fun fmt, comma split = ' ') {
         while (first != last) {
             fmt(first, *this), ++first;
@@ -336,7 +332,7 @@ public:
     [[deprecated]] cquery &put() { return newLine(); }
 
     template<class T>
-    void trace(const char *name, T &&value) { write(stderr, name, " = ", value); }
+    void trace(const char *name, T &&value) { write(stderr, name, " = ", value, '\n'); }
 
     template<class T, class ...Ts>
     void trace(const char *names, T &&value, Ts &&...list) {
@@ -350,17 +346,21 @@ public:
 char cquery::buffer[cquery::buffer_size];
 
 struct {
-    template <class token>
+    template<class token>
     auto &operator,(token &x) { return $(x), *this; }
+
     auto &operator,(char *x) { return $(x), *this; }
 } input;
 
 struct {
     using linebreak = std::ostream &(*)(std::ostream &);
+
     auto &operator,(linebreak x) { return $.newLine().flush(), *this; }
-    template <class token>
+
+    template<class token>
     auto &operator,(token &x) { return $.print(x), *this; }
-    template <class token>
+
+    template<class token>
     auto &operator,(token &&x) { return $.print(x), *this; }
 } output;
 
