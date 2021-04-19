@@ -62,6 +62,8 @@ static class cquery {
 
     static void write(FILE *io, const char x) { fputc(x, io); }
 
+    static void write(FILE *io, const bool x) { fputs(x ? "true" : "false", io); }
+
     template<const char *charset>
     static inline bool is(int x) {
         if (x <= 0) return true;
