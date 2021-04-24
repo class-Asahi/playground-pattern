@@ -43,11 +43,11 @@ static class cquery {
     }
 
     static void write(FILE *io, const double x) {
-        sprintf(buffer, "%lf", x), write(io, buffer);
+        sprintf(buffer, "%.10lf", x), write(io, buffer);
     }
 
     static void write(FILE *io, const long double x) {
-        sprintf(buffer, "%Lf", x), write(io, buffer);
+        sprintf(buffer, "%.10Lf", x), write(io, buffer);
     }
 
     static void write(FILE *io, const float x) {
