@@ -265,7 +265,7 @@ public:
     cquery &nextLine(char *str) {
         int ch = ::getchar();
         while (is<_blank>(ch)) ch = ::getchar();
-        str[0] = ch;
+        str[0] = (char) ch;
         scanf("%[^\n]", str + 1);
         return ::getchar(), *this;
     }
