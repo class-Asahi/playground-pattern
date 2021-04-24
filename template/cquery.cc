@@ -255,6 +255,14 @@ public:
         return *this;
     }
 
+    cquery &nextLine(char *str) {
+        int ch = ::getchar();
+        while (is<_blank>(ch)) ch = ::getchar();
+        str[0] = ch;
+        scanf("%[^\n]", str + 1);
+        return ::getchar(), *this;
+    }
+
     template<class T>
     cquery &putArray(T first, T last, char *split) {
         while (first != last) {
