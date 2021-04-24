@@ -173,6 +173,13 @@ public:
 
     bool hasNext() { return this, !eof(stdin); }
 
+    bool tryNext() {
+        int ch = ::getchar();
+        if (ch == -1) return false;
+        ch = ungetc(ch, stdin);
+        return this, ch != EOF;
+    }
+
     template<class T>
     cquery &print(const T &x) { return write(stdout, x), *this; }
 
